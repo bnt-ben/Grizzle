@@ -1,16 +1,15 @@
 /*
     Grizzle = Grid, Fo Shizzle - A minimalistic grid system using Flexbox
-	Version 2
+    Version 2.1
     Copyright (c) 2019 Ben Tice - benandtess.com; Licensed MIT
 */
 
-/* Min Grid - minimal grid with equal columns */
-.min-grid { display: flex; flex-wrap: wrap; list-style: none; margin: 0; padding: 0;}
-.min-col { flex: 1; }
-
 /* Standard Grid - will flip at major breakpoint by default */
 .grid { display: flex; flex-wrap: wrap; list-style: none; margin: 0; padding: 0;}
-.col, *[class*="col-"] { flex: 0 0 100%; } /* full-width default */
+.col, *[class*="col-"] { flex: 0 0 100%; box-sizing: border-box; } /* full-width default */
+
+.grid.grid-flex-always > .col { flex: 1; } /* even column widths independent of major breakpoint */
+.grid.grid-flex-always > .col-shrinkwrap { flex: none; }	/* shrink to fit content independent of major breakpoint */
 
 .grid-flip { flex-direction: row-reverse; }			/* reverse order of columns */
 .grid-equal-height-cols > .col { display: flex; }	/* equal height columns */
@@ -21,22 +20,21 @@
 .col-align-bottom { align-self: flex-end; }			/* bottom aligned column override */
 .col-align-middle { align-self: center; }			/* vertically centered column override */
 
-html body .mobile-hide { display: none !important; } /* hide on mobile */
+/* Gutters */
+.grid-pad { margin-left: -10px; }
+.grid-pad > .col, .grid-pad > *[class*="col-"] { padding-left: 10px; }
+.grid-padx2 { margin-left: -20px; }
+.grid-padx2 > .col, .grid-padx2 > *[class*="col-"] { padding-left: 20px; }
+.grid-padx3 { margin-left: -30px; }
+.grid-padx3 > .col, .grid-padx3 > *[class*="col-"] { padding-left: 30px; }
 
+html body .mobile-hide { display: none !important; } /* hide on mobile */
 @media only screen and (min-width: 960px) {
     /* major flip from mobile - change width when appropriate */
 
-	/* Gutters */
-	.grid-pad { margin-left: -10px; }
-	.grid-pad .col, .grid-pad *[class*="col-"] { padding-left: 10px; }
-	.grid-padx2 { margin-left: -20px; }
-	.grid-padx2 .col, .grid-padx2 *[class*="col-"] { padding-left: 20px; }
-	.grid-padx3 { margin-left: -30px; }
-	.grid-padx3 .col, .grid-padx3 *[class*="col-"] { padding-left: 30px; }
-
-	/* Column Widths */
-	.col { flex: 1; }					/* default to even column widths */
-	.col-shrinkwrap { flex: none; }		/* shrink to fit content */
+    /* Column Widths - active on desktop by default */
+    .col { flex: 1; }                   /* basic cols switch to even width at desktop */
+    .col-shrinkwrap { flex: none; }		/* shrink to fit content */
     .col-1-1 {flex: 0 0 100%;}
     .col-1-2 {flex: 0 0 50%;}
     .col-2-3 {flex: 0 0 66.66%;}
@@ -54,11 +52,6 @@ html body .mobile-hide { display: none !important; } /* hide on mobile */
 
     html body .mobile-hide { display: block !important; }				/* display as block when not hidden */
     html body .mobile-hide.ib { display: inline-block !important; }		/* display as inline-block when not hidden */
+    html body .mobile-hide.flex { display: flex !important; }		    /* display as flex when not hidden */
     html body .mobile-only { display: none !important; }				/* hide on desktop */
-}
-@media only screen and (min-width: 960px) and (max-width: 1199px) {
-    /* stack nested grids at smaller desktop widths - change widths when appropriate */
-    .col .col, *[class*="col-"] *[class*="col-"], .col *[class*="col-"], *[class*="col-"] .col {
-      flex: 0 0 100%;
-    }
 }
